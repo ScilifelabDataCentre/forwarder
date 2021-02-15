@@ -32,7 +32,7 @@ def get_url(dbconn, identifier: str) -> str:
 
 
 def add_url(dbconn, identifier: str, new_url: str) -> str:
-    token = secrets.token_urlsafe(128)
+    token = secrets.token_urlsafe(64)
     cursor = dbconn.cursor()
     cursor.execute('INSERT INTO url_entries VALUES (?, ?, ?)', (identifier, new_url, token))
     dbconn.commit()
