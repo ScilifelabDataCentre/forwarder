@@ -14,7 +14,7 @@ if not ADMIN_TOKEN:
     logging.error('ADMIN_TOKEN must be set')
     sys.exit(1)
 
-dbconn = sqlite3.connect('urls.db')
+dbconn = sqlite3.connect('data/urls.db')
 cursor = dbconn.cursor()
 cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='url_entries'")
 if not cursor.fetchone():
