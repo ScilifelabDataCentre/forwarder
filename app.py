@@ -24,7 +24,7 @@ dbconn.close()
 @app.before_request
 def prepare():
     """Open the database connection and get the current user."""
-    flask.g.dbconn = sqlite3.connect('urls.db')
+    flask.g.dbconn = sqlite3.connect('data/urls.db')
 
 
 @app.after_request
