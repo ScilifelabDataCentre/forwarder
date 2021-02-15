@@ -18,7 +18,7 @@ def get_entry(dbconn, identifier: str) -> str:
     cursor.execute('SELECT * FROM url_entries WHERE identifier=?', (identifier,))
     raw = cursor.fetchone()
     if raw:
-        data = dict(zip(('identifier', 'forward_to', 'token'), ))
+        data = dict(zip(('identifier', 'forward_to', 'token'), raw))
     else:
         data = None
     return data
