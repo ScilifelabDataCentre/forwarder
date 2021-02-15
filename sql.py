@@ -16,7 +16,11 @@ def update_url(dbconn, identifier: str, new_url: str):
 def get_entry(dbconn, identifier: str) -> str:
     cursor = dbconn.cursor()
     cursor.execute('SELECT * FROM url_entries WHERE identifier=?', (identifier,))
-    data = dict(zip(('identifier', 'forward_to', 'token'), cursor.fetchone()))
+    raw = cursor.fetchone()
+    if raw:
+        data = dict(zip(('identifier', 'forward_to', 'token'), ))
+    else:
+        data = None
     return data
 
 
