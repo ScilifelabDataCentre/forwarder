@@ -11,6 +11,6 @@ COPY ./*.py /code/
 
 ENV GUNICORN_CMD_ARGS "--bind=0.0.0.0:8000 --workers=1 --thread=4 --worker-class=gthread --forwarded-allow-ips='*' --access-logfile -"
 
-CMD ["gunicorn","flask_app:app"]
+CMD ["gunicorn","app:app"]
 
 EXPOSE 8000
