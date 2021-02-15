@@ -35,7 +35,7 @@ def finalize(response):
 
 @app.route('/')
 def list_entries():
-    return flask.jsonify(sql.get_all(flask.g.dbconn))
+    return flask.render_template('entries.html', entries=sql.get_all(flask.g.dbconn))
 
 
 @app.route('/update/', methods=['GET', 'POST'])
