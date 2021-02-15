@@ -27,7 +27,9 @@ def get_entry(dbconn, identifier: str) -> str:
 def get_url(dbconn, identifier: str) -> str:
     cursor = dbconn.cursor()
     cursor.execute('SELECT forward_to FROM url_entries WHERE identifier=?', (identifier,))
-    data = cursor.fetchone()[0]
+    data = cursor.fetchone()
+    if data:
+        data = data[0]
     return data
 
 
