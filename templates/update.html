@@ -1,12 +1,53 @@
 {% extends 'base.html' %}
 {% block content %}
-  <form method="post">
-    <label for="token">Token</label>
-    <input name="token" id="token" required>
-    <label for="identifier">Identifier</label>
-    <input name="identifier" id="identifier" required>
-    <label for="new_url">New URL</label>
-    <input type="url" name="new_url" id="new_url" required>
-    <input type="submit" value="Update URL">
-  </form>
+<form method="post">
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label" for="token">Token</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <p class="control">
+          <input class="input is-rounded" name="token" id="token" required>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+    <label class="label" for="identifier">Identifier</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <p class="control">
+          <input class="input is-rounded" name="identifier" id="identifier" required>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label" for="new_url">New URL</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <p class="control">
+          <input class="input is-rounded" type="url" name="new_url" id="new_url" required>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+    </div>
+    <div class="field-body">
+      <div class="control">
+        <input class="button is-link" type="submit" value="Update URL">
+      </div>
+    </div>
+  </div>
+</form>
 {% endblock %}

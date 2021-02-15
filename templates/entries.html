@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<table class="table is-striped">
+  <thead>
+    <th>Identifier</th><th>URL</th>
+  </thead>
+  <tbody>
+    {% for id, url in entries %}
+    <tr><td>{{ id }}</td><td><a href="{{ url }}">{{ url }}</a></td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
