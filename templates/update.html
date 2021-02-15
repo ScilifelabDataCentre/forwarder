@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+  <form method="post">
+    <label for="token">Token</label>
+    <input name="token" id="token" required>
+    <label for="identifier">Identifier</label>
+    <input name="identifier" id="identifier" required>
+    <label for="new_url">New URL</label>
+    <input type="url" name="new_url" id="new_url" required>
+    <input type="submit" value="Update URL">
+  </form>
+{% endblock %}
