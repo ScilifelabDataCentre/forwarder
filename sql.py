@@ -6,6 +6,12 @@ def init(dbconn):
                    '(identifier TEXT PRIMARY KEY, forward_to TEXT, update_token TEXT)')
 
 
+def delete_url(dbconn, identifier: str):
+    cursor = dbconn.cursor()
+    cursor.execute('DELETE FROM url_entries WHERE identifier = ?', (identifier,))
+    dbconn.commit()
+
+
 def update_url(dbconn, identifier: str, new_url: str):
     cursor = dbconn.cursor()
     cursor.execute('UPDATE url_entries SET forward_to = ? WHERE identifier = ?',

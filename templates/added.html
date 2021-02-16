@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<table class="table is-striped">
+  <tbody>
+    <tr><td><span class="has-text-weight-semibold">Identifier</span></td><td>{{ identifier }}</td></tr>
+    <tr><td><span class="has-text-weight-semibold">URL</span></td><td><a href="{{ stable_url }}">{{ stable_url }}</a></td></tr>
+    <tr><td><span class="has-text-weight-semibold">Forward to</span></td><td><a href="{{ forward_url }}">{{ forward_url }}</a></td></tr>
+    <tr><td><span class="has-text-weight-semibold">Token</span></td><td>{{ token }}</td></tr>
+  </tbody>
+</table>
+
+{% endblock %}
