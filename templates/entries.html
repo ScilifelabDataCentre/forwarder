@@ -2,11 +2,11 @@
 {% block content %}
 <table class="table is-striped">
   <thead>
-    <th>Identifier</th><th>URL</th>
+    <th>Identifier</th><th>Forward to</th>
   </thead>
   <tbody>
     {% for id, url in entries %}
-    <tr><td>{{ id }}</td><td><a href="{{ url }}">{{ url }}</a></td></tr>
+    <tr><td><a href="{{ url_for('forward', identifier=id, _external=True) }}">{{ id }}</a></td><td><a href="{{ url }}">{{ url }}</a></td></tr>
     {% endfor %}
   </tbody>
 </table>
