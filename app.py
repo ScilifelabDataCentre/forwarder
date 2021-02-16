@@ -65,8 +65,9 @@ def update_entry():
                 if args['new_url']:
                     sql.update_url(flask.g.dbconn, args['identifier'], args['new_url'])
                     return flask.Response('200: Entry updated successfully', status=200)
-                sql.delete_url(flask.g.dbconn, args['identifier'])
-                return flask.Response('200: Entry deleted successfully', status=200)
+                if args['token'] == ADMIN_TOKEN:
+                    sql.delete_url(flask.g.dbconn, args['identifier'])
+                    return flask.Response('200: Entry deleted successfully', status=200)
             return flask.Response('400: Bad input', status=400)
         if args['token'] == ADMIN_TOKEN:
             if not args['new_url']:
