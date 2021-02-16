@@ -1,3 +1,8 @@
+"""
+Simple URL forwarder with entries stored in a sqlite db.
+
+ADMIN_TOKEN must be set.
+"""
 import logging
 import os
 import sqlite3
@@ -21,63 +26,73 @@ if not cursor.fetchone():
     sql.init(dbconn)
 dbconn.close()
 
+
 @app.before_request
 def prepare():
-    """Open the database connection and get the current user."""
+    """Connect to the database."""
     flask.g.dbconn = sqlite3.connect('data/urls.db')
 
 
 @app.after_request
 def finalize(response):
+    """Close database connection."""
     flask.g.dbconn.close()
     return response
 
 
 @app.route('/')
 def list_entries():
+    """List available entries."""
     return flask.render_template('entries.html', entries=sql.get_all(flask.g.dbconn))
 
 
 @app.route('/update/', methods=['GET', 'POST'])
 def update_entry():
+    """
+    Add, edit, or delete entry.
+
+    A valid token must be provided.
+
+    Only ADMIN_TOKEN may add and delete entries.
+    """
     if flask.request.method == 'GET':
         return flask.render_template('update.html')
-    elif flask.request.method == 'POST':
-        args = dict(flask.request.form)
-        if 'token' in args and 'identifier' in args and 'new_url' in args:
-            entry = sql.get_entry(flask.g.dbconn, args['identifier'])
-            if entry:
-                if entry['token'] == args['token'] or args['token'] == ADMIN_TOKEN:
-                    if args['new_url']:
-                        sql.update_url(flask.g.dbconn, args['identifier'], args['new_url'])
-                        return flask.Response('200: Entry updated successfully', status=200)
-                    else:
-                        sql.delete_url(flask.g.dbconn, args['identifier'])
-                        return flask.Response('200: Entry deleted successfully', status=200)
-                else:
-                    return flask.Response('400: Bad input', status=400)
-            else:
-                if args['token'] == ADMIN_TOKEN:
-                    if not args['new_url']:
-                        return flask.Response('400: Bad input', status=400)
-                    try:
-                        new_token = sql.add_url(flask.g.dbconn, args['identifier'], args['new_url'])
-                    except sqlite3.IntegrityError:
-                        return flask.response('400: Identifier already exists', status=400)
-                    return flask.render_template('added.html',
-                                                 identifier=args['identifier'],
-                                                 stable_url=flask.url_for('forward',
-                                                                          _external=True,
-                                                                          identifier=args['identifier']),
-                                                 forward_url=args['new_url'],
-                                                 token=new_token)
-                else:
-                    return flask.Response('400: Bad input', status=400)
+    args = dict(flask.request.form)
+    if 'token' in args and 'identifier' in args and 'new_url' in args:
+        entry = sql.get_entry(flask.g.dbconn, args['identifier'])
+        if entry:
+            if entry['token'] == args['token'] or args['token'] == ADMIN_TOKEN:
+                if args['new_url']:
+                    sql.update_url(flask.g.dbconn, args['identifier'], args['new_url'])
+                    return flask.Response('200: Entry updated successfully', status=200)
+                sql.delete_url(flask.g.dbconn, args['identifier'])
+                return flask.Response('200: Entry deleted successfully', status=200)
+            return flask.Response('400: Bad input', status=400)
+        if args['token'] == ADMIN_TOKEN:
+            if not args['new_url']:
+                return flask.Response('400: Bad input', status=400)
+            try:
+                new_token = sql.add_url(flask.g.dbconn, args['identifier'], args['new_url'])
+            except sqlite3.IntegrityError:
+                return flask.Response('400: Identifier already exists', status=400)
+            return flask.render_template('added.html',
+                                         identifier=args['identifier'],
+                                         stable_url=flask.url_for('forward',
+                                                                  _external=True,
+                                                                  identifier=args['identifier']),
+                                         forward_url=args['new_url'],
+                                         token=new_token)
+        return flask.Response('400: Bad input', status=400)
     return flask.Response('400: Token is required', status=400)
 
 
 @app.route('/goto/<identifier>/')
 def forward(identifier: str):
+    """
+    Forward to the given url.
+
+    Forwards with code 307.
+    """
     url = sql.get_url(flask.g.dbconn, identifier)
     if not url:
         return flask.Response(status=404)
