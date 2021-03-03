@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<form method="post">
+<form class="box" method="post">
   <div class="field is-horizontal">
     <div class="field-label is-normal">
       <label class="label" for="token">Token</label>
@@ -50,4 +50,36 @@
     </div>
   </div>
 </form>
+
+<div class="box">
+  Updates can also be performed by setting the header <span class="is-family-monospace">X-Access-Token</span> to the token value and doing a POST request with the content:
+  <pre>
+    <code>
+{
+  "identifier": "identifier",
+  "new_url": "https://www.example.com"
+}
+    </code>
+  </pre>
+  <div class="is-size-5">
+    Using CURL:
+  </div>
+  <pre>
+curl -X POST -d '{"identifier":"identifier1","new_url":"https://example.com"}' \
+     -H "X-Access-Key: token" \
+     -H "Content-Type: application/json" \
+     {{ url_for('update_entry', _external=True) }}
+  </pre>
+  <div class="is-size-5">
+    Using Python:
+  </div>
+  <pre>
+import requests
+
+requests.post('{{ url_for('update_entry', _external=True) }}',
+              headers={'X-Access-Key': 'token'},
+              json={'identifier': 'identifier1',
+                    'new_url': 'https://www.example.com'})
+  </pre>
+</div>
 {% endblock %}
