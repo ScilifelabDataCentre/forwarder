@@ -1,4 +1,4 @@
-FROM python:alpine as build
+FROM python:rc-alpine as build
 
 RUN mkdir /code
 COPY ./requirements.txt /code/
