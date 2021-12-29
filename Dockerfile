@@ -4,8 +4,7 @@ RUN mkdir /code
 COPY ./requirements.txt /code/
 WORKDIR /code
 
-RUN pip install -r requirements.txt
-RUN pip install gunicorn
+RUN pip install -r requirements.txt gunicorn
 
 COPY ./templates /code/templates
 COPY ./*.py /code/
