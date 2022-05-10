@@ -8,7 +8,7 @@ on:
     types: [published]
 jobs:
   push_to_registry:
-    if: github.repository == 'talavis/form-manager'
+    if: github.repository == 'scilifelabdatacentre/forwarder'
     name: Publish Docker Image
     runs-on: ubuntu-latest
     steps:
