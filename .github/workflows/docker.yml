@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      -	name: Run setup-qemu-action
+      - name: Run setup-qemu-action
         uses: docker/setup-qemu-action@v2
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
