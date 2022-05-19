@@ -11,6 +11,9 @@ jobs:
     if: github.repository == 'scilifelabdatacentre/forwarder'
     name: Publish Docker Image
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
